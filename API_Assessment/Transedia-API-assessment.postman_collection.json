@@ -1,0 +1,613 @@
+{
+	"info": {
+		"_postman_id": "bb34ab2b-a873-4f45-8573-6332ad05bbfb",
+		"name": "Transedia-API-assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16796752"
+	},
+	"item": [
+		{
+			"name": "Create New Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"const boardData = JSON.stringify(jsonData);\r",
+							"const boardName = pm.environment.get(\"board_name\");\r",
+							"\r",
+							"pm.test(\"Successful Board Creation\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"if(jsonData){\r",
+							"\r",
+							"    pm.environment.set(\"board_data\", boardData);\r",
+							"\r",
+							"    if(jsonData.name){\r",
+							"        pm.test(\"Check Board Name\", function() {\r",
+							"            pm.expect(jsonData.name).to.eq(boardName);\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(\"Board name missing\", function() {\r",
+							"            pm.expect.fail(\"Board name is not present in the response\");\r",
+							"        });\r",
+							"    }\r",
+							"\r",
+							"    if(jsonData.id){\r",
+							"        pm.test(\"set Board Id\", function() {\r",
+							"            pm.environment.set(\"board_id\", jsonData.id);\r",
+							"\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(\"Board id missing\", function() {\r",
+							"            pm.expect.fail(\"Board id is not present in the response\");\r",
+							"        });\r",
+							"    }\r",
+							"} else {\r",
+							"    pm.test(\"Board data missing\", function() {\r",
+							"            pm.expect.fail(\"Board Data is not present in the response\");\r",
+							"        });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{board_name}}\"\r\n}\r\n  ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/boards",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"boards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Board adding",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"let boardData = JSON.stringify(jsonData);\r",
+							"const expectedboardData = pm.environment.get(\"board_data\");\r",
+							"\r",
+							"pm.test(\"Successful Board Data Response\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"if(jsonData){\r",
+							"    \r",
+							"    if(jsonData.length > 0) {\r",
+							"        board_data = jsonData[0];\r",
+							"        boardData = JSON.stringify(board_data);\r",
+							"    }\r",
+							"\r",
+							"    pm.test(\"Check Board Data\", function() {\r",
+							"        pm.expect(boardData).to.eq(expectedboardData);\r",
+							"    });\r",
+							"    \r",
+							"} else {\r",
+							"\r",
+							"    pm.test(\"Board data missing\", function() {    \r",
+							"        pm.expect.fail(\"Board Data is not present in the response\");\r",
+							"    });\r",
+							"\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/boards?id={{board_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{board_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"const listData = JSON.stringify(jsonData);\r",
+							"const listName = pm.environment.get(\"list_name\");\r",
+							"const boardId = pm.environment.get(\"board_id\");\r",
+							"\r",
+							"pm.test(\"Successful list Creation\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"if(jsonData){\r",
+							"\r",
+							"    pm.environment.set(\"list_data\", listData);\r",
+							"\r",
+							"    if(jsonData.boardId){\r",
+							"        pm.test(\"Check Board ID\", function() {\r",
+							"            pm.expect(jsonData.boardId).to.eq(boardId);\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(\"Board ID missing\", function() {\r",
+							"            pm.expect.fail(\"Board ID is not present in the response\");\r",
+							"        });\r",
+							"    }\r",
+							"\r",
+							"    if(jsonData.name){\r",
+							"        pm.test(\"Check list Name\", function() {\r",
+							"            pm.expect(jsonData.name).to.eq(listName);\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(\"List name missing\", function() {\r",
+							"            pm.expect.fail(\"List name is not present in the response\");\r",
+							"        });\r",
+							"    }\r",
+							"\r",
+							"    if(jsonData.id){\r",
+							"        pm.test(\"set List Id\", function() {\r",
+							"            pm.environment.set(\"list_id\", jsonData.id);\r",
+							"\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(\"List id missing\", function() {\r",
+							"            pm.expect.fail(\"List id is not present in the response\");\r",
+							"        });\r",
+							"    }\r",
+							"} else {\r",
+							"    pm.test(\"List data missing\", function() {\r",
+							"            pm.expect.fail(\"List Data is not present in the response\");\r",
+							"        });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"boardId\" : {{board_id}},\r\n    \"name\" : \"{{list_name}}\",\r\n    \"order\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/lists",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify List Adding",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"const expected = pm.environment.get(\"list_data\");\r",
+							"\r",
+							"const list = pm.environment.get(\"list_name\");\r",
+							"\r",
+							"\r",
+							"pm.test(\"Successful List Data Response\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(200);\r",
+							"});\r",
+							"\r",
+							"if(jsonData) {\r",
+							"\r",
+							"    pm.test(\"Check List quantity\", function() {\r",
+							"        pm.expect(jsonData.length).to.be.at.least(1);\r",
+							"        pm.environment.set(\"list_quantity\", jsonData.length);\r",
+							"\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Check created First list\", function() {\r",
+							"        const found = jsonData.some(item =>\r",
+							"        item.name === list && JSON.stringify(item) === expected\r",
+							"        );\r",
+							"        pm.expect(found).to.be.true;\r",
+							"    });\r",
+							"\r",
+							"   \r",
+							"} else {\r",
+							"\r",
+							"    pm.test(\"List data missing\", function() {\r",
+							"        pm.expect.fail(\"List Data is not present in the response\");\r",
+							"    });\r",
+							"\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/lists?boardId={{board_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "boardId",
+							"value": "{{board_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete New List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful Response for First list Delete\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/lists/{{list_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"lists",
+						"{{list_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify List Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"const expected = pm.environment.get(\"list_data\");\r",
+							"const list = pm.environment.get(\"list_name\");\r",
+							"\r",
+							"pm.test(\"Successful List Data Response\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(200);\r",
+							"});\r",
+							"\r",
+							"if(jsonData) {\r",
+							"\r",
+							"    pm.test(\"Check List quantity reduced\", function() {\r",
+							"        pm.expect(jsonData.length).to.eq(0);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"    pm.test(\"Check first list deleted\", function() {\r",
+							"        const found = jsonData.some(item =>\r",
+							"        item.name === list || JSON.stringify(item) === expected\r",
+							"        );\r",
+							"        pm.expect(found).to.be.false;\r",
+							"    });\r",
+							"\r",
+							"} else {\r",
+							"\r",
+							"    pm.test(\"List data missing\", function() {\r",
+							"        pm.expect.fail(\"List Data is not present in the response\");\r",
+							"    });\r",
+							"    \r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/lists?boardId={{board_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "boardId",
+							"value": "{{board_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful Response for Board Delete\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/boards/{{board_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"boards",
+						"{{board_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Board Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"const board = pm.environment.get(\"board_name\");\r",
+							"const expectedboardData = pm.environment.get(\"board_data\");\r",
+							"\r",
+							"pm.test(\"Successful Board Data Response\", function() {\r",
+							"    pm.expect(pm.response.code).to.eq(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"if(jsonData){\r",
+							"\r",
+							"    pm.test(\"Check Board deleted\", function() {\r",
+							"        const found = jsonData.some(item =>\r",
+							"        item.name === board || JSON.stringify(item) === expectedboardData\r",
+							"        );\r",
+							"        pm.expect(found).to.be.false;\r",
+							"    });\r",
+							"    \r",
+							"} else {\r",
+							"\r",
+							"    pm.test(\"Board data missing\", function() {    \r",
+							"        pm.expect.fail(\"Board Data is not present in the response\");\r",
+							"    });\r",
+							"\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/boards?id={{board_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{board_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "jwt",
+		"jwt": [
+			{
+				"key": "header",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "algorithm",
+				"value": "HS256",
+				"type": "string"
+			},
+			{
+				"key": "isSecretBase64Encoded",
+				"value": false,
+				"type": "boolean"
+			},
+			{
+				"key": "payload",
+				"value": "{}",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "headerPrefix",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "queryParamKey",
+				"value": "token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

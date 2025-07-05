@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+
+
+# Editor backup files
+*~
+
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+
+
+# IDEs
+.idea/
+.vscode/
+
+
+# Others
+*.log
+
+
+#Reports File
+/reports/*
+
+
+
+# Optional: Allow .gitignore itself to be tracked
+!.gitignore

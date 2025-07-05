@@ -21,15 +21,15 @@ qa_ui_automation/
 ├── pages/                  # Page Object Models
 ├── resources/              # Test data in JSON
 ├── tests/                  # Test scripts
-├── reports/                # Allure results & report folder
-│   ├── allure-results/     # Raw results (excluded from Git)
-│   ├── allure-report/      # Generated report (included in Git)
-│   └── pytest_report.html  # HTML version of test run
 ├── conftest.py             # Pytest configurations & fixtures
 ├── requirements.txt        # Python dependencies
 ├── pytest.ini              # CLI & logging config
 ├── utils.py                # Screenshot helper for Allure
 └── README.md               # You’re reading it 😄
+
+
+View Allure Reporsts for UI Automation
+[Report link](https://shaeekhkushal.github.io/transmedia_ui_assessment_report/)
 
 
 ## 🧪 How to Run Tests

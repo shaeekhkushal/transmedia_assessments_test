@@ -46,7 +46,7 @@ UI_Assessment/
 ## View Allurew report
 [Report link](https://shaeekhkushal.github.io/transmedia_ui_assessment_report/)
 
-=====================================================================================================================================================================================================
+
 
 ## API Automation (via Postman)
 **Tools & Stack Used**
@@ -59,7 +59,7 @@ API_Assessment/
 ├── Transmedia-API-assessment.postman_collection.json
 └── Transmedia-API-env.postman_environment.json
 
-====================================================================================================================================================================================================
+
 
 
 # Setup & Run

@@ -16,22 +16,14 @@ This project is a UI test automation suite built using **Playwright**, **Pytest*
 
 ## 📁 Project Structure
 
-UI_Assessment/
-├── pages/
-│   ├── __init__.py
-│   ├── board_page.py
-│   └── dashboard_page.py
-├── resources/
-│   └── test_data.json
-├── tests/
-│   ├── __init__.py
-│   ├── test_ui_assessment.py
-│   ├── conftest.py
-│   ├── pytest.ini
-│   ├── requirements.txt
-│   └── utils.py
-├── .gitignore
-└── README.md
+  UI_Assessment/
+  ├── pages/               
+  ├── tests/                
+  ├── resources/           
+  ├── conftest.py           
+  ├── pytest.ini            
+  ├── utils.py              
+  └── requirements.txt      
 
 ## Features
 - Comprehensive end-to-end UI automation scenarios implemented
@@ -55,9 +47,9 @@ UI_Assessment/
 - **Assertions**: Implemented using Postman’s built-in scripting capabilities
 
 # Project Structure
-API_Assessment/
-├── Transmedia-API-assessment.postman_collection.json
-└── Transmedia-API-env.postman_environment.json
+  API_Assessment/
+  ├── Transedia-API-assessment.postman_collection.json
+  ├── Transmedia-API-env.postman_environment.json
 
 
 
